@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <title>YiMail | Pure Communication</title>
+    <meta name="description" content="A minimalist, premium landing page for an exclusive email service hosted at mail.yimail.de.">
+    
+    <!-- Cloudflare Optimization: Preconnect to CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,400&display=swap" rel="stylesheet">
+    
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Inter', 'sans-serif'],
+              serif: ['Playfair Display', 'serif'],
+            },
+            colors: {
+              brand: {
+                950: '#020617',
+              }
+            },
+            animation: {
+              'blob': 'blob 10s infinite',
+              'fade-in-up': 'fadeInUp 0.8s ease-out forwards',
+              'fade-in': 'fadeIn 0.3s ease-out forwards',
+            },
+            keyframes: {
+              blob: {
+                '0%': { transform: 'translate(0px, 0px) scale(1)' },
+                '33%': { transform: 'translate(30px, -50px) scale(1.1)' },
+                '66%': { transform: 'translate(-20px, 20px) scale(0.9)' },
+                '100%': { transform: 'translate(0px, 0px) scale(1)' },
+              },
+              fadeInUp: {
+                '0%': { opacity: '0', transform: 'translateY(20px)' },
+                '100%': { opacity: '1', transform: 'translateY(0)' },
+              },
+              fadeIn: {
+                '0%': { opacity: '0' },
+                '100%': { opacity: '1' },
+              }
+            }
+          }
+        }
+      }
+    </script>
+    <style>
+      body {
+        background-color: #020617;
+        color: #f8fafc;
+        /* Fix horizontal scroll on mobile */
+        overflow-x: hidden; 
+        -webkit-tap-highlight-color: transparent;
+      }
+      
+      /* Glassmorphism utilities */
+      .glass-nav {
+        background: rgba(2, 6, 23, 0.7);
+        backdrop-filter: blur(12px);
+        -webkit-backdrop-filter: blur(12px);
+        border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      }
+      
+      .glass-panel {
+        background: rgba(255, 255, 255, 0.03);
+        backdrop-filter: blur(10px);
+        -webkit-backdrop-filter: blur(10px);
+        border: 1px solid rgba(255, 255, 255, 0.05);
+      }
+
+      ::selection {
+        background: rgba(255, 255, 255, 0.2);
+        color: #fff;
+      }
+      
+      /* Animation Utilities */
+      .reveal {
+        opacity: 0;
+        transform: translateY(30px);
+        transition: all 0.8s cubic-bezier(0.5, 0, 0, 1);
+      }
+      .reveal.active {
+        opacity: 1;
+        transform: translateY(0);
+      }
+      
+      .delay-100 { transition-delay: 100ms; }
+      .delay-200 { transition-delay: 200ms; }
+      .delay-300 { transition-delay: 300ms; }
+      .delay-400 { transition-delay: 400ms; }
+
+      /* Mobile Menu Styles */
+      #mobile-menu {
+        transition: opacity 0.3s ease-in-out, visibility 0.3s;
+      }
+      #mobile-menu.hidden {
+        opacity: 0;
+        visibility: hidden;
+        pointer-events: none;
+      }
+      #mobile-menu:not(.hidden) {
+        opacity: 1;
+        visibility: visible;
+        pointer-events: auto;
+      }
+    </style>
+</head>
+<body class="antialiased selection:bg-white/20 selection:text-white relative flex flex-col min-h-screen">
+
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 glass-nav transition-all duration-300">
+      <div class="max-w-7xl mx-auto px-6 h-20 flex items-center justify-between">
+        <!-- Logo -->
+        <a href="#" class="flex items-center gap-2 group cursor-pointer z-50 relative">
+          <div class="relative w-8 h-8 flex items-center justify-center">
+            <div class="absolute inset-0 border border-white/20 rounded-full group-hover:border-white/40 transition-colors duration-500"></div>
+            <div class="w-1 h-1 bg-white rounded-full"></div>
+          </div>
+          <span class="font-sans font-semibold tracking-widest text-lg text-white">YiMail</span>
+        </a>
+        
+        <!-- Desktop Nav -->
+        <div class="hidden md:flex items-center gap-8">
+          <a href="https://mail.yimail.de" class="group flex items-center gap-2 px-5 py-2.5 bg-white text-black text-sm font-medium rounded-full hover:bg-slate-200 transition-all duration-300">
+            <span>Sign In</span>
+            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 group-hover:translate-x-1 transition-transform">
+              <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+            </svg>
+          </a>
+        </div>
+
+        <!-- Mobile Menu Button -->
+        <button id="menu-btn" class="md:hidden z-50 p-2 text-white focus:outline-none" aria-label="Toggle menu">
+          <svg id="menu-icon-open" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+          <svg id="menu-icon-close" class="w-6 h-6 hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+          </svg>
+        </button>
+      </div>
+    </nav>
+
+    <!-- Mobile Fullscreen Menu -->
+    <div id="mobile-menu" class="hidden fixed inset-0 z-40 bg-slate-950/95 backdrop-blur-xl flex flex-col items-center justify-center">
+      <div class="flex flex-col gap-8 text-center">
+        <a href="https://mail.yimail.de" class="px-8 py-4 bg-white text-black text-lg font-medium rounded-full hover:bg-slate-200 transition-all duration-300 flex items-center gap-2 mx-auto">
+          <span>Sign In</span>
+          <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+            <path d="M5 12h14"/><path d="m12 5 7 7-7 7"/>
+          </svg>
+        </a>
+      </div>
+    </div>
+
+    <!-- Hero Section -->
+    <section class="relative min-h-[100dvh] flex items-center justify-center overflow-hidden pt-20 flex-grow">
+      <!-- Background Blobs -->
+      <div class="absolute top-0 -left-4 w-72 h-72 bg-blue-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob"></div>
+      <div class="absolute top-0 -right-4 w-72 h-72 bg-purple-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob" style="animation-delay: 2s"></div>
+      <div class="absolute -bottom-8 left-20 w-72 h-72 bg-indigo-500 rounded-full mix-blend-multiply filter blur-3xl opacity-10 animate-blob" style="animation-delay: 4s"></div>
+
+      <div class="relative z-10 max-w-5xl mx-auto px-6 text-center mt-[-10vh] sm:mt-0">
+        <!-- Badge -->
+        <div class="reveal inline-flex items-center gap-2 px-4 py-2 rounded-full border border-white/5 bg-white/5 backdrop-blur-sm mb-8">
+          <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+          <span class="text-xs font-medium text-slate-300 tracking-wide uppercase">System Operational</span>
+        </div>
+
+        <!-- Heading -->
+        <h1 class="reveal delay-100 text-4xl sm:text-6xl md:text-7xl lg:text-8xl font-bold tracking-tight text-white mb-8 leading-tight">
+          Silence the <br />
+          <span class="text-transparent bg-clip-text bg-gradient-to-r from-slate-200 to-slate-600">Noise.</span>
+        </h1>
+
+        <!-- Subtext -->
+        <p class="reveal delay-200 max-w-2xl mx-auto text-base sm:text-lg md:text-xl text-slate-400 mb-10 leading-relaxed font-light px-4">
+          Your inbox is your sanctuary. YiMail provides a secure, private, and 
+          distraction-free environment for your most important communications.
+        </p>
+
+        <!-- Buttons -->
+        <div class="reveal delay-300 flex flex-col sm:flex-row items-center justify-center gap-4 px-4 w-full">
+          <a href="https://mail.yimail.de" class="w-full sm:w-auto px-10 py-4 bg-white text-black font-semibold rounded-full hover:bg-slate-200 transition-colors duration-300 flex items-center justify-center gap-2 shadow-[0_0_20px_rgba(255,255,255,0.1)] hover:shadow-[0_0_30px_rgba(255,255,255,0.2)]">
+            <!-- Icon: Mail -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect width="20" height="16" x="2" y="4" rx="2"/><path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"/>
+            </svg>
+            <span>Go to Webmail</span>
+          </a>
+        </div>
+      </div>
+      
+      <!-- Scroll Indicator -->
+      <div class="hidden sm:flex reveal delay-400 absolute bottom-10 left-1/2 -translate-x-1/2 flex-col items-center gap-2 h-[80px]">
+        <span class="text-[10px] uppercase tracking-[0.2em] text-slate-600">Scroll</span>
+        <div class="w-[1px] h-12 bg-gradient-to-b from-slate-600 to-transparent"></div>
+      </div>
+    </section>
+
+    <!-- Quote Section -->
+    <section class="py-24 sm:py-32 px-6 text-center bg-brand-950 relative z-10">
+      <div class="max-w-3xl mx-auto">
+        <h2 class="reveal text-2xl sm:text-3xl md:text-4xl font-serif italic text-slate-200 mb-8 leading-relaxed">
+          "Simplicity is the ultimate sophistication."
+        </h2>
+        <p class="reveal delay-100 text-slate-500 uppercase tracking-widest text-xs">
+          Designed for the few
+        </p>
+      </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="py-12 sm:py-16 border-t border-white/5 bg-slate-950 relative z-10">
+      <div class="w-full flex flex-col items-center justify-center gap-6">
+        <div class="opacity-80 grayscale hover:grayscale-0 transition-all duration-500">
+          <div class="flex items-center gap-2 group cursor-default">
+            <div class="relative w-6 h-6 flex items-center justify-center">
+              <div class="absolute inset-0 border border-white/20 rounded-full group-hover:border-white/40 transition-colors duration-500"></div>
+              <div class="w-0.5 h-0.5 bg-white rounded-full"></div>
+            </div>
+            <span class="font-sans font-semibold tracking-widest text-sm text-white">YiMail</span>
+          </div>
+        </div>
+        <span class="text-slate-700 text-[10px] tracking-[0.3em] uppercase font-light">
+          © <span id="year"></span> YiMail. All Rights Reserved.
+        </span>
+      </div>
+    </footer>
+
+    <!-- Scripts -->
+    <script>
+      // Set current year
+      document.getElementById('year').textContent = new Date().getFullYear();
+
+      // Mobile Menu Logic
+      const menuBtn = document.getElementById('menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      const menuIconOpen = document.getElementById('menu-icon-open');
+      const menuIconClose = document.getElementById('menu-icon-close');
+      const mobileLinks = document.querySelectorAll('.mobile-link');
+
+      function toggleMenu() {
+        mobileMenu.classList.toggle('hidden');
+        menuIconOpen.classList.toggle('hidden');
+        menuIconClose.classList.toggle('hidden');
+        
+        // Prevent body scrolling when menu is open
+        if (!mobileMenu.classList.contains('hidden')) {
+            document.body.style.overflow = 'hidden';
+        } else {
+            document.body.style.overflow = '';
+        }
+      }
+
+      menuBtn.addEventListener('click', toggleMenu);
+
+      // Close menu when a link is clicked
+      mobileLinks.forEach(link => {
+        link.addEventListener('click', toggleMenu);
+      });
+
+      // Intersection Observer for Scroll Animations
+      document.addEventListener('DOMContentLoaded', () => {
+        const observerOptions = {
+          root: null,
+          rootMargin: '0px',
+          threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add('active');
+              observer.unobserve(entry.target); // Only animate once
+            }
+          });
+        }, observerOptions);
+
+        const revealElements = document.querySelectorAll('.reveal');
+        revealElements.forEach(el => observer.observe(el));
+      });
+    </script>
+</body>
+</html>
